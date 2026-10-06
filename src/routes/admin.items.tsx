@@ -119,8 +119,9 @@ function ItemsPageContent() {
       const n = await pullItems();
       await refreshCloudCount();
       toast.success(`Synced ${n} items`);
-    } catch {
-      toast.error("Sync failed — check your connection");
+    } catch (err) {
+      console.error("[Sync] Pull items failed:", err);
+      toast.error(`Sync failed: ${err instanceof Error ? err.message : "check your connection"}`);
     } finally {
       setSyncing(false);
     }
@@ -142,8 +143,9 @@ function ItemsPageContent() {
       const n = await pushAllLocalItems();
       await refreshCloudCount();
       toast.success(`Uploaded ${n} items — now available on every device`);
-    } catch {
-      toast.error("Upload failed — check your connection");
+    } catch (err) {
+      console.error("[Sync] Upload all items failed:", err);
+      toast.error(`Upload failed: ${err instanceof Error ? err.message : "check your connection"}`);
     } finally {
       setSyncing(false);
     }
@@ -169,8 +171,11 @@ function ItemsPageContent() {
       await clearAllItems();
       await refreshCloudCount();
       toast.success("All items cleared — you can now import and upload a fresh list");
-    } catch {
-      toast.error("Couldn't clear the items — check your connection");
+    } catch (err) {
+      console.error("[Sync] Clear all items failed:", err);
+      toast.error(
+        `Couldn't clear items: ${err instanceof Error ? err.message : "check your connection"}`,
+      );
     } finally {
       setSyncing(false);
     }

@@ -141,7 +141,8 @@ function MembersPageContent() {
             <Users className="h-7 w-7" /> Members
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Loyalty members earn 1 point for every Rp 100.000 spent (1 point = Rp 100).
+            Members receive an automatic 5% discount on total transactions and earn 2.5 points per
+            transaction (1 point = Rp 100).
           </p>
         </div>
         <Button onClick={openNew}>

@@ -22,8 +22,16 @@ export function printTransactionReceipt(t: Transaction, logoUrl?: string) {
   const totals = [
     ["Subtotal", currency(t.subtotal)],
     ["Tax", currency(t.tax)],
-    ...((t.discount ?? 0) > 0
-      ? [[`Points redeemed (${number(t.pointsRedeemed ?? 0)})`, `-${currency(t.discount ?? 0)}`]]
+    ...((t.memberDiscount ?? 0) > 0
+      ? [["Member discount (5%)", `-${currency(t.memberDiscount ?? 0)}`]]
+      : []),
+    ...((t.pointsRedeemed ?? 0) > 0
+      ? [
+          [
+            `Points redeemed (${number(t.pointsRedeemed ?? 0)})`,
+            `-${currency((t.pointsRedeemed ?? 0) * 100)}`,
+          ],
+        ]
       : []),
     ["TOTAL", currency(t.total)],
     ["Method", (t.paymentMethod ?? "cash").toUpperCase()],

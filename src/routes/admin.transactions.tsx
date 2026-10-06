@@ -127,6 +127,7 @@ function TxPageContent() {
         price: l.price,
         lineTotal: l.total,
         receiptTotal: t.total,
+        memberDiscount: t.memberDiscount ?? 0,
         pointsEarned: t.pointsEarned ?? 0,
         pointsRedeemed: t.pointsRedeemed ?? 0,
       })),
@@ -573,6 +574,21 @@ function TxPageContent() {
               <div className="space-y-1 pt-2 border-t">
                 <Row label="Subtotal" value={currency(viewing.subtotal)} />
                 <Row label="Tax" value={currency(viewing.tax)} />
+                {(viewing.memberDiscount ?? 0) > 0 && (
+                  <Row
+                    label="Member discount (5%)"
+                    value={`-${currency(viewing.memberDiscount ?? 0)}`}
+                  />
+                )}
+                {(viewing.pointsRedeemed ?? 0) > 0 && (
+                  <Row
+                    label={`Points redeemed (${number(viewing.pointsRedeemed ?? 0)})`}
+                    value={`-${currency((viewing.pointsRedeemed ?? 0) * 100)}`}
+                  />
+                )}
+                {viewing.memberName && (
+                  <Row label="Points earned" value={`+${number(viewing.pointsEarned ?? 0)}`} />
+                )}
                 <Row label="Total" value={currency(viewing.total)} bold />
                 <Row label="Paid" value={currency(viewing.paid)} />
                 <Row label="Change" value={currency(viewing.change)} />

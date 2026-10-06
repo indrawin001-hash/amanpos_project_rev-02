@@ -44,6 +44,8 @@ export interface Member {
 
 export const POINTS_PER_RUPIAH = 100_000; // spend Rp 100.000 → 1 point
 export const RUPIAH_PER_POINT = 100; // 1 point redeems Rp 100
+export const MEMBER_DISCOUNT_PERCENT = 5; // 5% discount for members
+export const MEMBER_POINTS_PER_TRANSACTION = 2.5; // 2.5 points per transaction for members
 
 export function pointsFromSpend(amount: number): number {
   if (!Number.isFinite(amount) || amount <= 0) return 0;
@@ -57,7 +59,8 @@ export interface Transaction {
   lines: TransactionLine[];
   subtotal: number;
   tax: number;
-  discount?: number; // e.g. points redemption
+  discount?: number; // total discount (member discount + points redemption)
+  memberDiscount?: number; // specific 5% member discount amount
   total: number;
   paid: number;
   change: number;

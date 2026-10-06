@@ -5,7 +5,10 @@ export const currency = (n: number) =>
     maximumFractionDigits: 0,
   }).format(n || 0);
 
-export const number = (n: number) => new Intl.NumberFormat("id-ID").format(n || 0);
+export const number = (n: number, maxFractionDigits: number = 1) =>
+  new Intl.NumberFormat("id-ID", {
+    maximumFractionDigits: maxFractionDigits,
+  }).format(n || 0);
 
 export function genReceiptNo() {
   const d = new Date();

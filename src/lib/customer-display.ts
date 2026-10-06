@@ -5,6 +5,11 @@ export type CustomerDisplayState = {
   subtotal: number;
   tax: number;
   total: number;
+  discount?: number;
+  memberDiscount?: number;
+  memberName?: string;
+  memberCode?: string;
+  pointsEarned?: number;
   status: "idle" | "selling" | "paid";
   paid?: number;
   change?: number;
