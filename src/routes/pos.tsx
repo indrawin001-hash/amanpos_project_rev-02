@@ -215,7 +215,7 @@ function POSPageContent() {
 
   const subtotal = lines.reduce((s, l) => s + l.total, 0);
   const tax = 0;
-  // 5% member discount deducted from total transaction
+  // 0.5% member discount deducted from total transaction
   const memberDiscount =
     member && subtotal > 0 ? Math.round((subtotal * MEMBER_DISCOUNT_PERCENT) / 100) : 0;
   const afterMemberDiscount = Math.max(0, subtotal - memberDiscount);
@@ -226,9 +226,11 @@ function POSPageContent() {
   const pointsDiscount = redeem * RUPIAH_PER_POINT;
   const discount = memberDiscount + pointsDiscount;
   const total = Math.max(0, subtotal + tax - discount);
-  // Member earns 2.5 points per transaction (plus points from spend if any)
+  // Member earns 0.25 points per transaction (plus points from spend if any)
   const earnPoints =
-    member && lines.length > 0 ? MEMBER_POINTS_PER_TRANSACTION + pointsFromSpend(total) : 0;
+    member && lines.length > 0
+      ? Math.round((MEMBER_POINTS_PER_TRANSACTION + pointsFromSpend(total)) * 100) / 100
+      : 0;
 
   // Reset redemption when member changes or cart empties
   useEffect(() => {
@@ -374,7 +376,10 @@ function POSPageContent() {
     });
     // Update member points / lifetime spend
     if (member?.id != null) {
-      const newPoints = Math.max(0, (member.points || 0) - redeem + earnPoints);
+      const newPoints = Math.max(
+        0,
+        Math.round(((member.points || 0) - redeem + earnPoints) * 100) / 100,
+      );
       const newSpent = (member.totalSpent || 0) + total;
       await db.members.update(member.id, { points: newPoints, totalSpent: newSpent });
     }
@@ -867,7 +872,7 @@ function POSPageContent() {
                     <div className="font-medium flex items-center gap-1.5">
                       {member.name}
                       <span className="text-[10px] font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 px-1.5 py-0.5 rounded">
-                        5% Member Discount
+                        {MEMBER_DISCOUNT_PERCENT}% Member Discount
                       </span>
                     </div>
                     <div className="text-xs text-muted-foreground font-mono">
@@ -884,7 +889,7 @@ function POSPageContent() {
                 </div>
                 {memberDiscount > 0 && (
                   <div className="flex justify-between text-xs text-emerald-600 font-medium pt-1 border-t">
-                    <span>Member discount (5%)</span>
+                    <span>Member discount ({MEMBER_DISCOUNT_PERCENT}%)</span>
                     <span>-{currency(memberDiscount)}</span>
                   </div>
                 )}
@@ -1088,7 +1093,7 @@ function POSPageContent() {
                 </div>
                 {(receipt.memberDiscount ?? 0) > 0 && (
                   <div className="flex justify-between">
-                    <span>Member discount (5%)</span>
+                    <span>Member discount ({MEMBER_DISCOUNT_PERCENT}%)</span>
                     <span>-{currency(receipt.memberDiscount ?? 0)}</span>
                   </div>
                 )}

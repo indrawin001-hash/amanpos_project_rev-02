@@ -1,4 +1,4 @@
-import type { Transaction } from "@/lib/db";
+import { type Transaction, MEMBER_DISCOUNT_PERCENT } from "@/lib/db";
 import { currency, number } from "@/lib/format";
 
 function esc(s: string) {
@@ -23,7 +23,7 @@ export function printTransactionReceipt(t: Transaction, logoUrl?: string) {
     ["Subtotal", currency(t.subtotal)],
     ["Tax", currency(t.tax)],
     ...((t.memberDiscount ?? 0) > 0
-      ? [["Member discount (5%)", `-${currency(t.memberDiscount ?? 0)}`]]
+      ? [[`Member discount (${MEMBER_DISCOUNT_PERCENT}%)`, `-${currency(t.memberDiscount ?? 0)}`]]
       : []),
     ...((t.pointsRedeemed ?? 0) > 0
       ? [

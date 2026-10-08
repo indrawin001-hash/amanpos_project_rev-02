@@ -1,7 +1,7 @@
 import { createFileRoute, useHydrated } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { subscribeCustomerDisplay, type CustomerDisplayState } from "@/lib/customer-display";
-import { currency } from "@/lib/format";
+import { currency, number } from "@/lib/format";
 import { BRAND_LOGO_URL } from "@/components/AppShell";
 import { ShoppingCart, CheckCircle2 } from "lucide-react";
 
@@ -101,12 +101,12 @@ function Display() {
                   <span className="font-semibold text-yellow-300">{state.memberName}</span>
                   <span className="opacity-75 font-mono text-xs">({state.memberCode})</span>
                   <span className="bg-emerald-500/30 text-emerald-200 border border-emerald-400/30 px-2 py-0.5 rounded text-xs font-medium">
-                    Member 5% Discount
+                    Member 0.5% Discount
                   </span>
                 </div>
                 {(state?.pointsEarned ?? 0) > 0 && (
                   <div className="text-yellow-300 font-semibold">
-                    +{state.pointsEarned} pts to earn
+                    +{number(state.pointsEarned ?? 0)} pts to earn
                   </div>
                 )}
               </div>
@@ -114,7 +114,7 @@ function Display() {
             <div className="mt-4 rounded-2xl bg-yellow-300 text-neutral-900 px-8 py-5 shadow-2xl space-y-2">
               {(state?.memberDiscount ?? 0) > 0 && (
                 <div className="flex justify-between items-center text-sm font-semibold text-emerald-800 border-b border-black/10 pb-1.5">
-                  <span>Member Discount (5%)</span>
+                  <span>Member Discount (0.5%)</span>
                   <span>-{currency(state.memberDiscount ?? 0)}</span>
                 </div>
               )}

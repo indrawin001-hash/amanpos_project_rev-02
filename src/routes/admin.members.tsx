@@ -103,7 +103,7 @@ function MembersPageContent() {
           name: editing.name.trim(),
           phone: editing.phone?.trim() ?? "",
           email: editing.email?.trim() ?? "",
-          points: Math.max(0, Math.floor(Number(editing.points) || 0)),
+          points: Math.max(0, Math.round((Number(editing.points) || 0) * 100) / 100),
         });
         toast.success("Member updated");
       } else {
@@ -112,7 +112,7 @@ function MembersPageContent() {
           name: editing.name.trim(),
           phone: editing.phone?.trim() ?? "",
           email: editing.email?.trim() ?? "",
-          points: Math.max(0, Math.floor(Number(editing.points) || 0)),
+          points: Math.max(0, Math.round((Number(editing.points) || 0) * 100) / 100),
           totalSpent: Math.max(0, Number(editing.totalSpent) || 0),
           createdAt: Date.now(),
         });
@@ -141,8 +141,8 @@ function MembersPageContent() {
             <Users className="h-7 w-7" /> Members
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Members receive an automatic 5% discount on total transactions and earn 2.5 points per
-            transaction (1 point = Rp 100).
+            Members receive an automatic 0.5% discount on total transactions and earn 0.25 points
+            per transaction (1 point = Rp 100).
           </p>
         </div>
         <Button onClick={openNew}>
@@ -261,6 +261,8 @@ function MembersPageContent() {
                   <Label>Points</Label>
                   <Input
                     type="number"
+                    step="0.01"
+                    min="0"
                     value={editing.points}
                     onChange={(e) =>
                       setEditing({ ...editing, points: Number(e.target.value) || 0 })

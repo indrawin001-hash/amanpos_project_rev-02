@@ -5,7 +5,7 @@ export const currency = (n: number) =>
     maximumFractionDigits: 0,
   }).format(n || 0);
 
-export const number = (n: number, maxFractionDigits: number = 1) =>
+export const number = (n: number, maxFractionDigits: number = 2) =>
   new Intl.NumberFormat("id-ID", {
     maximumFractionDigits: maxFractionDigits,
   }).format(n || 0);

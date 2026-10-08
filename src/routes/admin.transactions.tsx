@@ -576,7 +576,7 @@ function TxPageContent() {
                 <Row label="Tax" value={currency(viewing.tax)} />
                 {(viewing.memberDiscount ?? 0) > 0 && (
                   <Row
-                    label="Member discount (5%)"
+                    label="Member discount (0.5%)"
                     value={`-${currency(viewing.memberDiscount ?? 0)}`}
                   />
                 )}
